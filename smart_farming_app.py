@@ -129,24 +129,18 @@ if option == 'Get Crop Recommendation':
         else:
             st.warning('⚠️ Please enter your city!')
 
-elif option == 'Get Irrigation Advice':
-    st.header("💧 Get Irrigation Advice")
+elif option == 'Get Irrigation Advice':st.header("💧 Get Irrigation Advice")
 
+location_choice = st.radio("How do you want to provide location?", ("Enter City Manually", "Use My Current Location"))
+
+if location_choice == "Enter City Manually":
     city = st.text_input('Enter City Name:')
 
-    if st.button('Get Advice'):
-        if city:
-            st.success('Fetching real-time weather...')
-            temp, humidity = get_current_weather(city)
+elif location_choice == "Use My Current Location":
+    city = get_user_city()
+    if city:
+        st.success(f"Detected City: {city}")
+    else:
+        st.error("Could not detect your location. Please enter city manually.")
 
-            if temp is not None:
-                st.write(f"🌡️ Current Temperature: {temp} °C")
-                st.write(f"💧 Current Humidity: {humidity} %")
-
-                irrigation = irrigation_advice(temp, humidity)
-                st.success(f"💦 Irrigation Advice: {irrigation}")
-            else:
-                st.error('❌ Could not fetch weather. Check city name.')
-
-        else:
-            st.warning('⚠️ Please enter your city!')
+# Then use 'city' normally below to fetch weather and irrigation advice
