@@ -17,19 +17,7 @@ weather_model = joblib.load('weather_prediction_model.pkl')
 API_KEY = "a54341456a66edadfce567ab9e85f0e8"
 BASE_URL = "http://api.openweathermap.org/data/2.5/weather?"
 
-# Function to detect user's city automatically using IP Geolocation
-def get_user_city():
-    try:
-        response = requests.get('http://ip-api.com/json/')
-        data = response.json()
-        city = data['city']
-        return city
-    except Exception as e:
-        print(f"Error detecting location: {e}")
-        return None
-
-
-# 4. Function to get real-time weather from OpenWeatherMap
+# 4. Function to get real-time weather
 def get_current_weather(city_name):
     params = {
         'q': city_name,
@@ -45,7 +33,18 @@ def get_current_weather(city_name):
     else:
         return None, None
 
-# 5. Soil properties mapping
+# 5. Function to detect user's city automatically using IP Geolocation
+def get_user_city():
+    try:
+        response = requests.get('http://ip-api.com/json/')
+        data = response.json()
+        city = data['city']
+        return city
+    except Exception as e:
+        print(f"Error detecting location: {e}")
+        return None
+
+# 6. Soil properties mapping
 soil_properties = {
     'Sand':  [20, 10, 15, 6.5],
     'Clay':  [50, 40, 45, 6.0],
@@ -55,17 +54,18 @@ soil_properties = {
     'Silt':  [55, 45, 40, 6.3]
 }
 
-# 6. Streamlit App Layout
+# 7. Streamlit App Layout
+st.set_page_config(page_title="Smart Farming Assistant", layout="centered")
 st.title("🌾 Smart Farming Assistant")
 st.write("Welcome! Get Crop Recommendation or Irrigation Advice based on your location and soil type.")
 
-# 7. Two Main Options
+# 8. Two Main Options
 option = st.selectbox(
     'What would you like to do?',
     ('Select an option', 'Get Crop Recommendation', 'Get Irrigation Advice')
 )
 
-# 🧠 Based on the option chosen
+# 🧠 Logic Based on Selected Option
 if option == 'Get Crop Recommendation':
     st.header("🌱 Get Crop Recommendation")
 
@@ -141,18 +141,35 @@ if option == 'Get Crop Recommendation':
         else:
             st.warning('⚠️ Please enter your city!')
 
-elif option == 'Get Irrigation Advice':st.header("💧 Get Irrigation Advice")
+elif option == 'Get Irrigation Advice':
+    st.header("💧 Get Irrigation Advice")
 
-location_choice = st.radio("How do you want to provide location?", ("Enter City Manually", "Use My Current Location"))
+    location_choice = st.radio(
+        "How would you like to provide your location?",
+        ("Enter City Manually", "Use My Current Location")
+    )
 
-if location_choice == "Enter City Manually":
-    city = st.text_input('Enter City Name:')
-
-elif location_choice == "Use My Current Location":
-    city = get_user_city()
-    if city:
-        st.success(f"Detected City: {city}")
+    if location_choice == "Enter City Manually":
+        city = st.text_input('Enter City Name:')
     else:
-        st.error("Could not detect your location. Please enter city manually.")
+        city = get_user_city()
+        if city:
+            st.success(f"Detected City: {city}")
+        else:
+            st.error("❌ Could not detect your location. Please enter manually.")
 
-# Then use 'city' normally below to fetch weather and irrigation advice
+    if st.button('Get Irrigation Advice'):
+        if city:
+            st.success('Fetching real-time weather...')
+            temp, humidity = get_current_weather(city)
+
+            if temp is not None:
+                st.write(f"🌡️ Current Temperature: {temp} °C")
+                st.write(f"💧 Current Humidity: {humidity} %")
+
+                irrigation = irrigation_advice(temp, humidity)
+                st.success(f"💦 Irrigation Advice: {irrigation}")
+            else:
+                st.error('❌ Could not fetch weather. Check city name.')
+        else:
+            st.warning('⚠️ Please provide a city or allow location detection.')
