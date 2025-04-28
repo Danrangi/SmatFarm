@@ -17,6 +17,18 @@ weather_model = joblib.load('weather_prediction_model.pkl')
 API_KEY = "a54341456a66edadfce567ab9e85f0e8"
 BASE_URL = "http://api.openweathermap.org/data/2.5/weather?"
 
+# Function to detect user's city automatically using IP Geolocation
+def get_user_city():
+    try:
+        response = requests.get('http://ip-api.com/json/')
+        data = response.json()
+        city = data['city']
+        return city
+    except Exception as e:
+        print(f"Error detecting location: {e}")
+        return None
+
+
 # 4. Function to get real-time weather from OpenWeatherMap
 def get_current_weather(city_name):
     params = {
