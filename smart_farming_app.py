@@ -100,17 +100,9 @@ if option == 'Get Crop Recommendation':
                     'description': ['clear'] * 30  # simulate known label
                 })
 
-                # ✅ One-hot encode the 'description' column using correct prefix
-                future_data = pd.get_dummies(future_data, columns=['description'], prefix='desc')
-
-                # ✅ Ensure all expected one-hot encoded columns are present
-                for col in ['desc_clear', 'desc_clouds', 'desc_rain']:
-                    if col not in future_data.columns:
-                        future_data[col] = 0
-
-                # ✅ Reorder columns to match training
-                future_data = future_data[['temperature', 'humidity', 'day', 'month',
-                                           'desc_clear', 'desc_clouds', 'desc_rain']]
+                # ✅ Ensure future_data has the correct columns for the trained model
+                future_data = future_data.rename(columns={'temperature': 'temp'})  # Rename to match training
+                future_data = future_data[['temp', 'humidity', 'month', 'day']]  # Select and reorder columns
 
                 # ✅ Predict
                 future_predictions = weather_model.predict(future_data)
@@ -139,7 +131,7 @@ if option == 'Get Crop Recommendation':
                 st.success(crop_recommendation)
 
                 # Advanced Crop Recommendation (using AI model)
-                avg_future_temp = np.mean(future_data['temperature'])
+                avg_future_temp = np.mean(future_data['temp'])
                 avg_future_humidity = np.mean(future_data['humidity'])
                 avg_rainfall = 100  # Assume rainfall if not provided
 
