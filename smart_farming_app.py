@@ -92,13 +92,13 @@ if option == 'Get Crop Recommendation':
                 avg_temp = temp
                 avg_humidity = humidity
 
-               future_data = pd.DataFrame({
+                   future_data = pd.DataFrame({
                     'temperature': np.random.normal(loc=avg_temp, scale=2, size=30),
                     'humidity': np.random.normal(loc=avg_humidity, scale=5, size=30),
                     'month': [future_month]*30,
                     'day': future_days,
                     'description': ['clear'] * 30  # simulate known label
-                })
+                    })
                 
                 # One-hot encode using correct prefix
                 future_data = pd.get_dummies(future_data, columns=['description'], prefix='desc')
