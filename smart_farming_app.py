@@ -96,9 +96,23 @@ if option == 'Get Crop Recommendation':
                     'temperature': np.random.normal(loc=avg_temp, scale=2, size=30),
                     'humidity': np.random.normal(loc=avg_humidity, scale=5, size=30),
                     'month': [future_month]*30,
-                    'day': future_days
+                    'day': future_days,
+                    'description': ['clear'] * 30  # simulate known label
                 })
 
+                # One-hot encode the 'description' column
+                future_data = pd.get_dummies(future_data, columns=['description'])
+
+                # Ensure all expected description columns are present
+                for col in ['description_clear', 'description_clouds', 'description_rain']:
+                    if col not in future_data.columns:
+                        future_data[col] = 0
+
+                # Reorder to match model input
+                future_data = future_data[['temperature', 'humidity', 'day', 'month',
+                                           'description_clear', 'description_clouds', 'description_rain']]
+
+                # Predict
                 future_predictions = weather_model.predict(future_data)
 
                 label_map = {0: 'clear', 1: 'clouds', 2: 'rain'}
