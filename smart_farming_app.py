@@ -100,19 +100,19 @@ if option == 'Get Crop Recommendation':
                     'description': ['clear'] * 30  # simulate known label
                 })
 
-                # One-hot encode the 'description' column
-                future_data = pd.get_dummies(future_data, columns=['description'])
+                # ✅ One-hot encode the 'description' column using correct prefix
+                future_data = pd.get_dummies(future_data, columns=['description'], prefix='desc')
 
-                # Ensure all expected description columns are present
-                for col in ['description_clear', 'description_clouds', 'description_rain']:
+                # ✅ Ensure all expected one-hot encoded columns are present
+                for col in ['desc_clear', 'desc_clouds', 'desc_rain']:
                     if col not in future_data.columns:
                         future_data[col] = 0
 
-                # Reorder to match model input
+                # ✅ Reorder columns to match training
                 future_data = future_data[['temperature', 'humidity', 'day', 'month',
-                                           'description_clear', 'description_clouds', 'description_rain']]
+                                           'desc_clear', 'desc_clouds', 'desc_rain']]
 
-                # Predict
+                # ✅ Predict
                 future_predictions = weather_model.predict(future_data)
 
                 label_map = {0: 'clear', 1: 'clouds', 2: 'rain'}
