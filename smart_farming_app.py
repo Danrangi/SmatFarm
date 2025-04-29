@@ -92,23 +92,23 @@ if option == 'Get Crop Recommendation':
                 avg_temp = temp
                 avg_humidity = humidity
 
-                future_data = pd.DataFrame({
+               future_data = pd.DataFrame({
                     'temperature': np.random.normal(loc=avg_temp, scale=2, size=30),
                     'humidity': np.random.normal(loc=avg_humidity, scale=5, size=30),
                     'month': [future_month]*30,
                     'day': future_days,
                     'description': ['clear'] * 30  # simulate known label
                 })
-
-                # ✅ One-hot encode the 'description' column using correct prefix
+                
+                # One-hot encode using correct prefix
                 future_data = pd.get_dummies(future_data, columns=['description'], prefix='desc')
-
-                # ✅ Ensure all expected one-hot encoded columns are present
+                
+                # Ensure all required one-hot columns are present
                 for col in ['desc_clear', 'desc_clouds', 'desc_rain']:
                     if col not in future_data.columns:
                         future_data[col] = 0
-
-                # ✅ Reorder columns to match training
+                
+                # Reorder columns EXACTLY as used during training
                 future_data = future_data[['temperature', 'humidity', 'day', 'month',
                                            'desc_clear', 'desc_clouds', 'desc_rain']]
 
