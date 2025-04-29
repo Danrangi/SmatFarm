@@ -92,17 +92,20 @@ if option == 'Get Crop Recommendation':
                 avg_temp = temp
                 avg_humidity = humidity
 
+                # Create future_data DataFrame
                 future_data = pd.DataFrame({
                     'temperature': np.random.normal(loc=avg_temp, scale=2, size=30),
                     'humidity': np.random.normal(loc=avg_humidity, scale=5, size=30),
                     'month': [future_month]*30,
-                    'day': future_days,
-                    'description': ['clear'] * 30  # simulate known label
+                    'day': future_days
                 })
 
                 # ✅ Ensure future_data has the correct columns for the trained model
-                future_data = future_data.rename(columns={'temperature': 'temp'})  # Rename to match training
-                future_data = future_data[['temp', 'humidity', 'month', 'day']]  # Select and reorder columns
+                # Rename 'temperature' to 'temp' to match training feature names
+                future_data = future_data.rename(columns={'temperature': 'temp'})
+
+                # Select and reorder columns to match the features used during training
+                future_data = future_data[['temp', 'humidity', 'month', 'day']]
 
                 # ✅ Predict
                 future_predictions = weather_model.predict(future_data)
