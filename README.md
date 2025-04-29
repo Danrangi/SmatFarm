@@ -1,6 +1,6 @@
 🌾 Smart Farming Assistant 🚜
 
-A smart web application built with **Streamlit** that helps farmers make informed decisions by recommending the best crops to plant based on their **soil type and location's weather, and also gives irrigation advice using real-time weather data 🌦️💧.
+A smart web application built with **Streamlit** that helps farmers make informed decisions by recommending the best crops to plant based on their soil type and location's weather, and also gives irrigation advice using real-time weather data 🌦️💧.
 
 
 Features
