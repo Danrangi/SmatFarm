@@ -168,7 +168,7 @@ elif option == 'Get Irrigation Advice':
     else:
         city = get_user_city()
         if city:
-            st.success(f"Detected City: {city}")
+            st.success(f"City Detected") #{city}")
         else:
             st.error("❌ Could not detect your location. Please enter manually.")
 
