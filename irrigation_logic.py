@@ -1,5 +1,3 @@
-# irrigation_logic.py
-
 def irrigation_advice(temp, humidity, rainfall=None):
     if rainfall is not None:
         if rainfall > 50:
@@ -9,10 +7,9 @@ def irrigation_advice(temp, humidity, rainfall=None):
         elif 5 < rainfall <= 20:
             return "🌧️ Light rain. Reduce watering by 50%."
         else:
-            # Rainfall is very low, continue based on temperature and humidity
+            
             pass
-
-    # If no significant rain, or rainfall not available, use temp and humidity logic
+            
     if temp > 32 and humidity < 40:
         return "🔥 High temp and low humidity. Water heavily (25 L/sq.m)."
     elif 25 <= temp <= 32:
