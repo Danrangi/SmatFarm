@@ -11,7 +11,7 @@ crop_model = joblib.load('crop_recommendation_model.pkl')
 weather_model = joblib.load('weather_prediction_model.pkl')
 
 # Weather API configuration
-API_KEY = "*************************"
+API_KEY = "a54341456a66edadfce567ab9e85f0e8"
 BASE_URL = "http://api.openweathermap.org/data/2.5/weather?"
 
 def get_current_weather(city_name):
