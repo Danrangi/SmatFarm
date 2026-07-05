@@ -1,46 +1,103 @@
-🌾 Smart Farming Assistant 🚜
+# SmartFarm 🌾🚜
 
-A smart web application built with **Streamlit** that helps farmers make informed decisions by recommending the best crops to plant based on their soil type and location's weather, and also gives irrigation advice using real-time weather data 🌦️💧.
+A web app that helps farmers decide what to grow and when to water. Uses real weather data and AI to give practical advice for your farm.
 
+## What This Does
 
-Features
+### Crop Recommendation
+Pick a crop that matches your soil and weather. The app analyzes your soil nutrients (N, P, K), pH levels, and local weather patterns to suggest the best crop for your conditions. It pulls actual weather forecasts and predicts conditions 30 days out to make a smarter recommendation.
 
-Crop Recommendation  
-- Uses AI to recommend the best crop to plant  
-- Based on soil nutrients (N, P, K), pH, humidity, temperature, and rainfall  
-- Simulates future weather for 30 days using real-time conditions  
-- Offers both rule-based and AI-powered suggestions  
+### Irrigation Advice  
+Get daily watering suggestions based on current weather. The app checks temperature, humidity, and rainfall to tell you how much water your crops actually need—avoiding both dry fields and wasted water.
 
-Irrigation Advice
-- Gives smart daily water usage advice  
-- Based on real-time temperature, humidity, and rainfall  
-- Supports auto-location detection or manual city input  
+### Keeps It Simple
+Everything runs in your browser. Just enter your location or let it detect where you are. No installation headaches, no complicated setup.
 
-User-Friendly Interface  
-- Built with Streamlit — fast, clean, and mobile-friendly  
-- Automatically fetches weather from OpenWeatherMap API  
-- Runs in the browser, no installation required
+## How It Works
 
+**For Crop Recommendations:**
+1. Tell us your soil type and where you farm
+2. We fetch real weather data for your area
+3. The model predicts what the next 30 days will look like
+4. You get back the best crop for those conditions
 
-How It Works
+**For Watering:**
+1. Enter your city (or we'll find it automatically)
+2. Check current weather conditions
+3. Get a water recommendation for today
 
-1. Crop Recommendation
-   - User selects soil type and enters a city name.
-   - App fetches current weather → simulates 30 days → feeds average into trained model.
-   - Displays AI-recommended crop and rule-based fallback suggestion.
+## Tech Stack
 
-2. Irrigation Advice
-   - User enters city or uses auto-detection.
-   - Real-time weather fetched via OpenWeatherMap API.
-   - App advises on how much water is needed based on weather conditions.
+- **Python** — the whole thing runs on Python
+- **Streamlit** — keeps the UI fast and clean
+- **Scikit-learn** — our ML models for predictions
+- **Pandas & NumPy** — data handling and analysis
+- **OpenWeatherMap API** — real-time weather data
+- **Joblib** — saves and loads trained models
 
-Technologies Used
+## Getting Started
 
-- Python
-- Streamlit
-- Scikit-learn
-- Pandas & NumPy
-- OpenWeatherMap API
-- Joblib (for model serialization)
+### What You Need
+- Python 3.8+
+- An API key from OpenWeatherMap (free tier works)
 
+### Setup
 
+1. Clone the repo:
+```bash
+git clone https://github.com/Danrangi/SmatFarm.git
+cd SmatFarm
+```
+
+2. Install dependencies:
+```bash
+pip install -r requirements.txt
+```
+
+3. Add your OpenWeatherMap API key (set it as an environment variable or in the app)
+
+4. Run it:
+```bash
+streamlit run smart_farming_app.py
+```
+
+The app opens in your browser at `http://localhost:8501`
+
+## What's In Here
+
+- `smart_farming_app.py` — the main app you actually use
+- `crop_recommendation_model.ipynb` — how we trained the crop model
+- `weather_prediction_model.ipynb` — how we built the weather forecasting
+- `irrigation_logic.py` — the watering recommendation logic
+- `.pkl` files — trained models (already ready to go)
+- `Crop_recommendation.csv` — the crop data we learned from
+- `nigeria_cities_weather_data.csv` — historical weather patterns
+
+## The Models
+
+Both models were trained on real agricultural and weather data. The crop model learns from soil properties and historical growing patterns. The weather model uses past conditions to predict what's coming.
+
+## Current Limitations
+
+- Focused on Nigerian geography right now (based on our training data)
+- Works best with known crops and soil types
+- Relies on OpenWeatherMap data accuracy
+
+## Future Ideas
+
+- Add more regions beyond Nigeria
+- Mobile app (Flutter app started, contributions welcome)
+- Better soil data integration
+- Pest and disease predictions
+
+## License
+
+MIT License — use it however you want
+
+## Questions?
+
+Open an issue if something's broken or unclear. Contributions are welcome.
+
+---
+
+Built by farmers who wanted better tools. Feel free to fork, improve, and share.
